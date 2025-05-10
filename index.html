@@ -111,7 +111,11 @@
   <div class="instruction" id="instruction">Cobaa klik di mana aja 😋</div>
   <div class="credit">Made with ❤️ by si "M" sepupu Pak "Y"</div>
   <canvas id="confetti"></canvas>
-  <audio id="ding" src="https://assets.mixkit.co/sfx/preview/mixkit-bell-notification-933.mp3" preload="auto"></audio>
+  <audio id="bg-music" preload="auto" loop>
+    <source src="https://audio.jukehost.co.uk/ujDRr1VlHaHl2qZ1wK5bLA6QPmP1y8fz">
+  </audio>
+
+
 
   <!-- jQuery (required) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -133,7 +137,8 @@
     const photoCarousel = document.getElementById("photo");
     const message = document.getElementById("message");
     const instruction = document.getElementById("instruction");
-    const audio = document.getElementById("ding");
+    const bgMusic = document.getElementById("bg-music");
+    // const audio = document.getElementById("ding");
 
     const prompts = [
       "Ubur-ubur ikan lele 🐟",
@@ -152,7 +157,8 @@
         instruction.style.opacity = 0;
         photoCarousel.classList.add("show"); // show the carousel
         message.classList.add("show");
-        audio.play();
+        // audio.play();
+        bgMusic.play().catch(e => console.log("Autoplay blocked:", e));
         launchConfetti();
       }
     });
