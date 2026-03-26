@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lala, It's For You 💕</title>
+  <title>For You 💕</title>
   <style>
     body {
       margin: 0;
@@ -17,6 +17,13 @@
       overflow: hidden;
     }
 
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
     .container {
       background: white;
       padding: 30px;
@@ -24,6 +31,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       max-width: 350px;
       position: relative;
+      z-index: 2;
     }
 
     h1 {
@@ -72,6 +80,8 @@
   </style>
 </head>
 <body>
+  <canvas id="fireworks"></canvas>
+
   <div class="container">
     <h1 id="question">Do you love me? 😏💕</h1>
 
@@ -113,6 +123,60 @@
 
     function sayYes() {
       document.getElementById('result').style.display = 'block';
+      startFireworks();
+    }
+
+    // 🎆 Simple Fireworks
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    function createFirework(x, y) {
+      for (let i = 0; i < 50; i++) {
+        particles.push({
+          x: x,
+          y: y,
+          angle: Math.random() * 2 * Math.PI,
+          speed: Math.random() * 5 + 2,
+          radius: 2,
+          life: 100
+        });
+      }
+    }
+
+    function updateFireworks() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, index) => {
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        p.life--;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 60%)`;
+        ctx.fill();
+
+        if (p.life <= 0) {
+          particles.splice(index, 1);
+        }
+      });
+
+      requestAnimationFrame(updateFireworks);
+    }
+
+    function startFireworks() {
+      setInterval(() => {
+        createFirework(
+          Math.random() * canvas.width,
+          Math.random() * canvas.height / 2
+        );
+      }, 500);
+
+      updateFireworks();
     }
   </script>
 </body>
